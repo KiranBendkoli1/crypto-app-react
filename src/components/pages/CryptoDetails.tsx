@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import millify from "millify";
 import { Select, Typography, Col, Image, Row } from "antd";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import {
   AiOutlineDollarCircle,
   AiOutlineNumber,
@@ -19,7 +19,7 @@ type Props = {};
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const CryptoDetails = (props: Props) => {
+const CryptoDetails: FC<Props> = () => {
   const [timeperiod, setTimeperiod] = useState<string>("7d");
   const { coinId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -27,7 +27,7 @@ const CryptoDetails = (props: Props) => {
     (state) => state.crypto.coin
   ) as OneCoin;
 
-  const time = ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"];
+  const time = useMemo(() => ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"], []);
 
   useEffect(() => {
     if (typeof coinId === "string") {

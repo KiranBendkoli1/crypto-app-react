@@ -41,7 +41,7 @@ const App: React.FC = () => {
             : theme.defaultAlgorithm,
       }}
     >
-      <Spin spinning={isCryptoLoading || isNewsLoading}>
+      <Spin size="large" style={{minHeight:"100vh"}} spinning={isCryptoLoading || isNewsLoading}>
         <BrowserRouter>
           <Layout
             style={{ minHeight: "100vh" }}

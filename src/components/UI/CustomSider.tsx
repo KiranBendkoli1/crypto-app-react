@@ -1,12 +1,11 @@
-import { Layout, Menu, Drawer, Button, theme } from "antd";
+import { Layout, Menu, Drawer, Button } from "antd";
 import { SiBitcoinsv } from "react-icons/si";
 import { BiNews, BiHomeCircle } from "react-icons/bi";
-const { Sider } = Layout;
 import icon from "../../assets/cryptocurrency.png";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AiOutlineMenuFold } from "react-icons/ai";
-
+const { Sider } = Layout;
 const CustomSider = () => {
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
   const [isActive, setIsActive] = useState<boolean>(true);
@@ -90,7 +89,7 @@ const CustomSider = () => {
         </Sider>
       )}
       {!isActive && (
-        <div className="app-header" style={{justifyContent:"space-around"}}>
+        <div className="app-header" style={{ justifyContent: "space-around" }}>
           <div
             style={{
               display: "flex",

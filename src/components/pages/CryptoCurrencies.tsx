@@ -30,7 +30,7 @@ const CryptoCurrencies: FC<Props> = ({ simplified }) => {
   }, []);
 
   useEffect(() => {
-    dispatch(getCryptoData(count));
+    if (coins.length < 100 && !simplified) dispatch(getCryptoData(count));
   }, [count]);
   return (
     <>
@@ -64,9 +64,9 @@ const CryptoCurrencies: FC<Props> = ({ simplified }) => {
         )}
       </div>
       <Row gutter={[16, 16]}>
-        {!selected.length
-          ? coins.map((coin) => {
-            return (
+        {
+          simplified ?
+            coins.filter((coin) => coin.rank <= 10).map((coin) => (
               <Col xs={24} sm={12} lg={6} key={coin.uuid}>
                 <Link to={`/crypto/${coin.uuid}`}>
                   <Card
@@ -75,9 +75,9 @@ const CryptoCurrencies: FC<Props> = ({ simplified }) => {
                     hoverable
                     bordered
                   >
-                    <p>Price: {millify(Number.parseFloat(coin.price))}</p>
+                    <p>Price: $ {millify(Number.parseFloat(coin.price))}</p>
                     <p>
-                      Market Cap: {millify(Number.parseInt(coin.marketCap))}
+                      Market Cap: $ {millify(Number.parseInt(coin.marketCap))}
                     </p>
                     <p>
                       Daily Change: {millify(Number.parseFloat(coin.change))}%
@@ -85,33 +85,56 @@ const CryptoCurrencies: FC<Props> = ({ simplified }) => {
                   </Card>
                 </Link>
               </Col>
-            );
-          })
-          : coins
-            .filter((coin) => selected.includes(coin.name))
-            .map((coin) => {
-              return (
-                <Col xs={24} sm={12} lg={6} key={coin.uuid}>
-                  <Link to={`/crypto/${coin.uuid}`}>
-                    <Card
-                      title={`${coin.rank}. ${coin.name}`}
-                      extra={<img src={coin.iconUrl} height={"30px"} />}
-                      hoverable
-                      bordered
-                    >
-                      <p>Price: {millify(Number.parseFloat(coin.price))}</p>
-                      <p>
-                        Market Cap: {millify(Number.parseInt(coin.marketCap))}
-                      </p>
-                      <p>
-                        Daily Change:{" "}
-                        {millify(Number.parseFloat(coin.change))}%
-                      </p>
-                    </Card>
-                  </Link>
-                </Col>
-              );
-            })}
+            ))
+            :
+            !selected.length
+              ? coins.map((coin) => {
+                return (
+                  <Col xs={24} sm={12} lg={6} key={coin.uuid}>
+                    <Link to={`/crypto/${coin.uuid}`}>
+                      <Card
+                        title={`${coin.rank}. ${coin.name}`}
+                        extra={<img src={coin.iconUrl} height={"30px"} />}
+                        hoverable
+                        bordered
+                      >
+                        <p>Price: $ {millify(Number.parseFloat(coin.price))}</p>
+                        <p>
+                          Market Cap: $ {millify(Number.parseInt(coin.marketCap))}
+                        </p>
+                        <p>
+                          Daily Change: {millify(Number.parseFloat(coin.change))}%
+                        </p>
+                      </Card>
+                    </Link>
+                  </Col>
+                );
+              })
+              : coins
+                .filter((coin) => selected.includes(coin.name))
+                .map((coin) => {
+                  return (
+                    <Col xs={24} sm={12} lg={6} key={coin.uuid}>
+                      <Link to={`/crypto/${coin.uuid}`}>
+                        <Card
+                          title={`${coin.rank}. ${coin.name}`}
+                          extra={<img src={coin.iconUrl} height={"30px"} />}
+                          hoverable
+                          bordered
+                        >
+                          <p>Price: $ {millify(Number.parseFloat(coin.price))}</p>
+                          <p>
+                            Market Cap: $ {millify(Number.parseInt(coin.marketCap))}
+                          </p>
+                          <p>
+                            Daily Change:{" "}
+                            {millify(Number.parseFloat(coin.change))}%
+                          </p>
+                        </Card>
+                      </Link>
+                    </Col>
+                  );
+                })}
       </Row>
     </>
   );
