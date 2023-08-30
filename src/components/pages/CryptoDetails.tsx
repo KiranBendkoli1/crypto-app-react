@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import millify from "millify";
 import { Select, Typography, Col, Image, Row } from "antd";
 import { useParams } from "react-router-dom";

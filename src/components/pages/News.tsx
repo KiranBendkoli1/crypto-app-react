@@ -2,8 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { useEffect, useMemo, FC, useState } from "react";
 import { Value, getNewsData } from "../../app/newsSlice";
-import { Typography, Row, Col, Card, Select, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Typography, Row, Col, Card, Select } from "antd";
 import moment from "moment";
 import { Coin } from "../../app/cryptoSlice";
 
@@ -36,7 +35,7 @@ const News: FC<Props> = ({ simplified }) => {
   return (
     <>
       {" "}
-      <div className="homepage-title-div" style={{marginTop:`${simplified ? "20px":"0px"}`}}>
+      <div className="homepage-title-div" style={{ marginTop: `${simplified ? "20px" : "0px"}` }}>
         <Title level={2} className="heading">
           Top {count} Crypto News in the World
         </Title>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
@@ -14,6 +14,8 @@ import {
   Title,
 } from "chart.js";
 import moment from "moment";
+import tinycolor from "tinycolor2";
+import { ThemeContext } from "../../context/theme-context";
 type Props = {
   currentPrice: string;
   coinName: string;
@@ -42,6 +44,8 @@ const LineChart: FC<Props> = ({ currentPrice, coinName, timeperiod, color }) => 
     (state) => state.crypto.change
   ) as string;
 
+  const themeContext = useContext(ThemeContext);
+    console.log(tinycolor(color).getBrightness())
   useEffect(() => {
     const prices: string[] = history.map((item) => item.price).reverse();
     setPrice(prices);
@@ -65,8 +69,8 @@ const LineChart: FC<Props> = ({ currentPrice, coinName, timeperiod, color }) => 
         label: "Price in USD",
         data: price,
         fill: false,
-        backgroundColor: `${color}`,
-        borderColor:`${color}`,
+        backgroundColor:`${color}`,
+        borderColor: `${tinycolor(color).getBrightness()>70 || themeContext.theme === "light" ? color :"#fff" }`,
       },
     ],
   };

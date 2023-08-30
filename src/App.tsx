@@ -12,11 +12,11 @@ import { AppDispatch, RootState } from "./app/store";
 import { BsSun, BsMoon } from "react-icons/bs";
 import { ThemeContext } from "./context/theme-context";
 import { BiSolidColorFill } from "react-icons/bi";
+
 const { Content } = Layout;
 
 const App: React.FC = () => {
-  // const apiKey: string = process.env.REACT_APP_CRYPTO_API as string;
-  // console.log(apiKey);
+
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState(false);
   const isCryptoLoading: boolean = useSelector<RootState>(
