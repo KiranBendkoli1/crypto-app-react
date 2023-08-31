@@ -1,4 +1,4 @@
-import { FC, useState, createContext, ReactNode } from "react";
+import {  useState, createContext, ReactNode } from "react";
 
 // type ThemeContextType = {
 //   theme: string;
@@ -6,7 +6,7 @@ import { FC, useState, createContext, ReactNode } from "react";
 // };
 export const ThemeContext = createContext({
   theme: "light",
-  setSelectedTheme: (ctheme: string) => {},
+  setSelectedTheme: (ctheme: string) => { console.log(ctheme) },
 });
 
 type Props = {

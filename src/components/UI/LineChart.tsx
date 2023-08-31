@@ -70,7 +70,7 @@ const LineChart: FC<Props> = ({ currentPrice, coinName, timeperiod, color }) => 
         data: price,
         fill: false,
         backgroundColor:`${color}`,
-        borderColor: `${tinycolor(color).getBrightness()>70 || themeContext.theme === "light" ? color :"#fff" }`,
+        borderColor: `${tinycolor(color).getBrightness()>70 || themeContext.theme === "light" ? color :"grey" }`,
       },
     ],
   };

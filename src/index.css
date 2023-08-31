@@ -28,7 +28,7 @@
 }
 
 /* custom slider styling */
-.app-header p {
+.app-header .app-title {
   display: flex;
   justify-content: center;
   color: white;

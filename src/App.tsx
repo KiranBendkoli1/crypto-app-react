@@ -22,9 +22,6 @@ const App: React.FC = () => {
   const isCryptoLoading: boolean = useSelector<RootState>(
     (state) => state.crypto.isLoading
   ) as boolean;
-  const isNewsLoading: boolean = useSelector<RootState>(
-    (state) => state.news.isLoading
-  ) as boolean;
   const onChange = (checked: boolean) => {
     setOpen(checked);
   };
@@ -41,7 +38,7 @@ const App: React.FC = () => {
             : theme.defaultAlgorithm,
       }}
     >
-      <Spin size="large" style={{minHeight:"100vh"}} spinning={isCryptoLoading || isNewsLoading}>
+      <Spin size="large" style={{minHeight:"100vh"}} spinning={isCryptoLoading}>
         <BrowserRouter>
           <Layout
             style={{ minHeight: "100vh" }}

@@ -48,7 +48,7 @@ const CryptoDetails: FC<Props> = () => {
         <Text>{coin.description}</Text>
       </Col>
       <Select
-        defaultValue="7d"
+        defaultValue="3h"
         className="select-timeperiod"
         placeholder="Select Timeperiod"
         onChange={(value) => setTimeperiod(value)}

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { MyApiKey, getCoinBaseUrl, getCoinsBaseUrl } from "../config/keys";
 
 export interface CryptoAPITypes {
   status: string;
@@ -174,14 +173,14 @@ export const getCryptoData = createAsyncThunk(
   async (count: number) => {
     try {
       const response = await axios.get(
-        getCoinsBaseUrl,
+        import.meta.env.VITE_GET_COINS_BASE_URL,
         {
           params:{
             limit:count
           },
           headers: {
             "X-RapidAPI-Key":
-              MyApiKey,
+              import.meta.env.VITE_API_KEY,
             "X-RapidAPI-Host": "coinranking1.p.rapidapi.com",
           },
         }
@@ -200,11 +199,11 @@ export const getCoinData = createAsyncThunk(
   async (coinId: string) => {
     try {
       const response = await axios.get(
-        `${getCoinBaseUrl}/${coinId}`,
+        `${import.meta.env.VITE_GET_COIN_BASE_URL}/${coinId}`,
         {
           headers: {
             "X-RapidAPI-Key":
-              MyApiKey,
+            import.meta.env.VITE_API_KEY,
             "X-RapidAPI-Host": "coinranking1.p.rapidapi.com",
           },
         }
@@ -226,14 +225,14 @@ export const getCoinHistory = createAsyncThunk(
     const { coinId, timeperiod } = data;
     try {
       const response = await axios.get(
-        `${getCoinBaseUrl}/${coinId}/history`,
+        `${import.meta.env.VITE_GET_COIN_BASE_URL}/${coinId}/history`,
         {
           params: {
             timePeriod: timeperiod,
           },
           headers: {
             "X-RapidAPI-Key":
-              MyApiKey,
+            import.meta.env.VITE_API_KEY,
             "X-RapidAPI-Host": "coinranking1.p.rapidapi.com",
           },
         }

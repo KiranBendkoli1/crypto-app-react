@@ -18,17 +18,17 @@ const CustomSider = () => {
   const onClose = useCallback(() => {
     setOpen(false);
   }, []);
-
+  const current = window.location.href.split("/")[window.location.href.split("/").length - 1];
   const menu = useMemo(
     () => (
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={[`/${current}`]}
         onChange={onClose}
         items={[
           {
-            key: "1",
+            key: "/",
             icon: (
               <Link to={"/"}>
                 <BiHomeCircle />
@@ -37,7 +37,7 @@ const CustomSider = () => {
             label: "Home Page",
           },
           {
-            key: "2",
+            key: "/cryptocurrencies",
             icon: (
               <Link to={"/cryptocurrencies"}>
                 <SiBitcoinsv />
@@ -46,7 +46,7 @@ const CustomSider = () => {
             label: "Crypto Currencies",
           },
           {
-            key: "3",
+            key: "/news",
             icon: (
               <Link to={"/news"}>
                 <BiNews />
@@ -82,7 +82,7 @@ const CustomSider = () => {
           <div className="app-header">
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
               <img src={icon} className="app-icon" />
-              <p>Crypto App</p>
+              <p className="app-title">Crypto App</p>
             </div>
           </div>
           {menu}
@@ -102,25 +102,26 @@ const CustomSider = () => {
               className="app-icon"
               style={{ height: "50px", width: "50px" }}
             />
-            <p style={{ margin: "20px 5px" }}>Crypto App</p>
-          </div>
-          {!isActive && (
+            <p style={{  margin: "20px 5px" }}>Crypto App</p>
+            {!isActive && (
             <Button
-              style={{ margin: "20px 10px" }}
+              style={{ margin: "20px 0px 0px 40%" }}
               icon={<AiOutlineMenuFold />}
               onClick={showDrawer}
             />
           )}
+          </div>
+          
         </div>
       )}
       <Drawer title="" placement="right" onClose={onClose} open={open}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[`/${current}`]}
           onClick={onClose}
           items={[
             {
-              key: "1",
+              key: "/",
               icon: (
                 <Link to={"/"}>
                   <BiHomeCircle />
@@ -129,7 +130,7 @@ const CustomSider = () => {
               label: "Home Page",
             },
             {
-              key: "2",
+              key: "/cryptocurrencies",
               icon: (
                 <Link to={"/cryptocurrencies"}>
                   <SiBitcoinsv />
@@ -138,7 +139,7 @@ const CustomSider = () => {
               label: "Crypto Currencies",
             },
             {
-              key: "3",
+              key: "/news",
               icon: (
                 <Link to={"/news"}>
                   <BiNews />

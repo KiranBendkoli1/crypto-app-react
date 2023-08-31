@@ -1,11 +1,9 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Typography, Row, Col, Card, Select } from "antd";
+import { Typography, Row, Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../app/store";
 import { Coin, getCryptoData } from "../../app/cryptoSlice";
-import { Link } from "react-router-dom";
-import { millify } from "millify";
-// import Title from "antd/es/typography/Title";
+import CustomCryptoCard from "../UI/CustomCryptoCard";
 type Props = {
   simplified?: boolean;
 };
@@ -67,72 +65,20 @@ const CryptoCurrencies: FC<Props> = ({ simplified }) => {
         {
           simplified ?
             coins.filter((coin) => coin.rank <= 10).map((coin) => (
-              <Col xs={24} sm={12} lg={6} key={coin.uuid}>
-                <Link to={`/crypto/${coin.uuid}`}>
-                  <Card
-                    title={`${coin.rank}. ${coin.name}`}
-                    extra={<img src={coin.iconUrl} height={"30px"} />}
-                    hoverable
-                    bordered
-                  >
-                    <p>Price: $ {millify(Number.parseFloat(coin.price))}</p>
-                    <p>
-                      Market Cap: $ {millify(Number.parseInt(coin.marketCap))}
-                    </p>
-                    <p>
-                      Daily Change: {millify(Number.parseFloat(coin.change))}%
-                    </p>
-                  </Card>
-                </Link>
-              </Col>
+              <CustomCryptoCard coin={coin} />
             ))
             :
             !selected.length
               ? coins.map((coin) => {
                 return (
-                  <Col xs={24} sm={12} lg={6} key={coin.uuid}>
-                    <Link to={`/crypto/${coin.uuid}`}>
-                      <Card
-                        title={`${coin.rank}. ${coin.name}`}
-                        extra={<img src={coin.iconUrl} height={"30px"} />}
-                        hoverable
-                        bordered
-                      >
-                        <p>Price: $ {millify(Number.parseFloat(coin.price))}</p>
-                        <p>
-                          Market Cap: $ {millify(Number.parseInt(coin.marketCap))}
-                        </p>
-                        <p>
-                          Daily Change: {millify(Number.parseFloat(coin.change))}%
-                        </p>
-                      </Card>
-                    </Link>
-                  </Col>
+                  <CustomCryptoCard coin={coin} />
                 );
               })
               : coins
                 .filter((coin) => selected.includes(coin.name))
                 .map((coin) => {
                   return (
-                    <Col xs={24} sm={12} lg={6} key={coin.uuid}>
-                      <Link to={`/crypto/${coin.uuid}`}>
-                        <Card
-                          title={`${coin.rank}. ${coin.name}`}
-                          extra={<img src={coin.iconUrl} height={"30px"} />}
-                          hoverable
-                          bordered
-                        >
-                          <p>Price: $ {millify(Number.parseFloat(coin.price))}</p>
-                          <p>
-                            Market Cap: $ {millify(Number.parseInt(coin.marketCap))}
-                          </p>
-                          <p>
-                            Daily Change:{" "}
-                            {millify(Number.parseFloat(coin.change))}%
-                          </p>
-                        </Card>
-                      </Link>
-                    </Col>
+                    <CustomCryptoCard coin={coin} />
                   );
                 })}
       </Row>
