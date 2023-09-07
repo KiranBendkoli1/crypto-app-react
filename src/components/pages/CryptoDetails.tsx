@@ -1,40 +1,37 @@
 import { useMemo, useState } from "react";
 import millify from "millify";
-import { Select, Typography, Col, Image, Row } from "antd";
+import { Select, Typography, Col, Image, Row, Spin } from "antd";
 import { useParams } from "react-router-dom";
-import { FC, useEffect } from "react";
 import {
   AiOutlineDollarCircle,
   AiOutlineNumber,
   AiOutlineThunderbolt,
   AiOutlineTrophy,
 } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store";
-import { OneCoin, getCoinData, getCoinHistory } from "../../app/cryptoSlice";
 import LineChart from "../UI/LineChart";
+import { useQuery } from "@tanstack/react-query";
+import { getCoin } from "../../utils/methods";
+import { OneCoin } from "../../app/cryptoSlice";
 
-type Props = {};
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const CryptoDetails: FC<Props> = () => {
+const CryptoDetails = () => {
   const [timeperiod, setTimeperiod] = useState<string>("7d");
-  const { coinId } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
-  const coin: OneCoin = useSelector<RootState>(
-    (state) => state.crypto.coin
-  ) as OneCoin;
-
   const time = useMemo(() => ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"], []);
+  const { coinId } = useParams();
 
-  useEffect(() => {
-    if (typeof coinId === "string") {
-      dispatch(getCoinData(coinId));
-      dispatch(getCoinHistory({ coinId, timeperiod }));
-    }
-  }, [coinId, timeperiod]);
+  const { status: coinStatus, data: coinData, error: coinError } = useQuery({
+    enabled: coinId !== null, 
+    queryKey: ['coin'], queryFn: () => getCoin(coinId ? coinId : "")
+  })
+
+  if (coinStatus === "loading") return <></>
+  if (coinStatus === "error") return <>{JSON.stringify(coinError)}</>
+
+  const coin: OneCoin = coinData as OneCoin;
+
   return (
     <Col>
       <Col style={{ display: "flex" }}>
@@ -58,6 +55,7 @@ const CryptoDetails: FC<Props> = () => {
         ))}
       </Select>
       <LineChart
+        coinId={coin.uuid}
         currentPrice={coin.price}
         coinName={coin.name}
         timeperiod={timeperiod}

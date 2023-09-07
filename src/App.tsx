@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { ConfigProvider, FloatButton, Layout, Spin, theme } from "antd";
 import CustomSider from "./components/UI/CustomSider";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
@@ -6,9 +6,6 @@ import HomePage from "./components/pages/HomePage";
 import CryptoCurrencies from "./components/pages/CryptoCurrencies";
 import News from "./components/pages/News";
 import CryptoDetails from "./components/pages/CryptoDetails";
-import { useDispatch, useSelector } from "react-redux";
-import { getCryptoData } from "./app/cryptoSlice";
-import { AppDispatch, RootState } from "./app/store";
 import { BsSun, BsMoon } from "react-icons/bs";
 import { ThemeContext } from "./context/theme-context";
 import { BiSolidColorFill } from "react-icons/bi";
@@ -16,18 +13,12 @@ import { BiSolidColorFill } from "react-icons/bi";
 const { Content } = Layout;
 
 const App: React.FC = () => {
-
-  const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState(false);
-  const isCryptoLoading: boolean = useSelector<RootState>(
-    (state) => state.crypto.isLoading
-  ) as boolean;
+
   const onChange = (checked: boolean) => {
     setOpen(checked);
   };
-  useEffect(() => {
-    dispatch(getCryptoData(10));
-  }, []);
+
   const themeContext = useContext(ThemeContext);
   return (
     <ConfigProvider
@@ -38,7 +29,7 @@ const App: React.FC = () => {
             : theme.defaultAlgorithm,
       }}
     >
-      <Spin size="large" style={{minHeight:"100vh"}} spinning={isCryptoLoading}>
+      <Spin size="large" style={{ minHeight: "100vh" }} spinning={false}>
         <BrowserRouter>
           <Layout
             style={{ minHeight: "100vh" }}
@@ -92,8 +83,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// Continue the react-typescript project (crypto-app)
-// Implement and style cryptocurrency chart with react-chartjs-2 library
-// Add Responsiveness in Application
-// Solve styling related issues in Application

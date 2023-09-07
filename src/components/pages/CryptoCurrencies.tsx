@@ -1,35 +1,38 @@
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Typography, Row, Select } from "antd";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../app/store";
-import { Coin, getCryptoData } from "../../app/cryptoSlice";
+import { useCallback, useMemo, useState } from "react";
+import { Typography, Row, Select, Spin } from "antd";
+import { Coin } from "../../app/cryptoSlice";
 import CustomCryptoCard from "../UI/CustomCryptoCard";
+import { useQuery } from "@tanstack/react-query"
+import { getCoins } from "../../utils/methods";
 type Props = {
   simplified?: boolean;
 };
 
 const { Option } = Select;
-
 const { Title } = Typography;
-const CryptoCurrencies: FC<Props> = ({ simplified }) => {
+
+const CryptoCurrencies = ({ simplified }: Props) => {
   const count = useMemo(() => (simplified ? 10 : 100), [simplified]);
-  const dispatch = useDispatch<AppDispatch>();
   const [selected, setSelected] = useState<string[]>([]);
 
-  const coins: Coin[] = useSelector<RootState>(
-    (state) => state.crypto.coins
-  ) as Coin[];
-
-  const coin_names = useMemo(() => coins.map((coin) => coin.name), [coins]);
-
+  const { status: coinsStatus, data: coinsData, error: coinsError,isLoading } = useQuery({
+    queryKey: ['coins',count], queryFn: () => getCoins(count)
+  })
+  // console.log(coinsData)
+  const coins: Coin[] = coinsData as Coin[];
+  const coin_names = coins && coins.map((coin) => coin.name);
   const handleChange = useCallback((val: string[]) => {
-    console.log(val);
     setSelected(val);
-  }, []);
+  }, [])
 
-  useEffect(() => {
-    if (coins.length < 100 && !simplified) dispatch(getCryptoData(count));
-  }, [count]);
+
+  if (coinsStatus === "loading") {
+    return <></>
+  }
+  if (coinsStatus === "error") {
+    return <>{JSON.stringify(coinsError)}</>
+  }
+
   return (
     <>
       <div
@@ -87,3 +90,5 @@ const CryptoCurrencies: FC<Props> = ({ simplified }) => {
 };
 
 export default CryptoCurrencies;
+
+

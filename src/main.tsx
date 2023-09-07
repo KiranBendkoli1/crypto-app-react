@@ -1,13 +1,13 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import store from "./app/store.ts";
-import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeContextProvider from "./context/theme-context.tsx";
+const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <Provider store={store}>
-  <ThemeContextProvider >
-  <App />
-  </ThemeContextProvider>
-  </Provider>
+  <QueryClientProvider client={queryClient}>
+      <ThemeContextProvider >
+        <App />
+      </ThemeContextProvider>
+  </QueryClientProvider>
 );

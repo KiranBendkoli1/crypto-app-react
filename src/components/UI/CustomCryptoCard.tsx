@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import millify from 'millify'
 
 type Props = {
-    coin: Coin
+    coin: Coin;
 }
 
 const CustomCryptoCard = ({ coin }: Props) => {
