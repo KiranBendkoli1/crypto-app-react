@@ -1,12 +1,10 @@
-import {  useState, createContext, ReactNode } from "react";
+import { useState, createContext, ReactNode } from "react";
 
-// type ThemeContextType = {
-//   theme: string;
-//   setSelectedTheme(ctheme: string): void;
-// };
 export const ThemeContext = createContext({
   theme: "light",
-  setSelectedTheme: (ctheme: string) => { console.log(ctheme) },
+  setSelectedTheme: (ctheme: string) => {
+    console.log(ctheme);
+  },
 });
 
 type Props = {
@@ -14,7 +12,7 @@ type Props = {
 };
 
 const ThemeContextProvider = ({ children }: Props) => {
-  const [theme, setTheme] = useState<string>("light");
+  const [theme, setTheme] = useState<string>("dark");
   const setSelectedTheme = (ctheme: string) => {
     setTheme(ctheme);
   };

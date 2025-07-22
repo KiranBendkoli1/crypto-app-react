@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Line } from "react-chartjs-2";
 import { History } from "../../app/cryptoSlice";
 import {
@@ -15,14 +15,15 @@ import moment from "moment";
 import tinycolor from "tinycolor2";
 import { ThemeContext } from "../../context/theme-context";
 import { useQuery } from "@tanstack/react-query";
-import { Spin } from "antd";
+import { Skeleton, Alert } from "antd";
 import { getHistory } from "../../utils/methods";
+
 type Props = {
   currentPrice: string;
   coinName: string;
   timeperiod: string;
-  color: string
-  coinId: string
+  color: string;
+  coinId: string;
 };
 
 ChartJS.register(
@@ -35,30 +36,54 @@ ChartJS.register(
   Legend
 );
 
-// const { Title } = Typography;
-const LineChart = ({ currentPrice, coinId, coinName, timeperiod, color }: Props) => {
+const LineChart = ({
+  currentPrice,
+  coinId,
+  coinName,
+  timeperiod,
+  color,
+}: Props) => {
   const themeContext = useContext(ThemeContext);
 
-  console.log(currentPrice)
-  const { status: historyStatus, data: historyData, error: historyError } = useQuery({
-    queryKey: ["history"], queryFn: () => getHistory(coinId, timeperiod)
-  })
+  const {
+    status: historyStatus,
+    data: historyData,
+    error: historyError,
+  } = useQuery({
+    queryKey: ["history", coinId, timeperiod],
+    queryFn: () => getHistory(coinId, timeperiod),
+  });
 
-  const history: History[] = historyData as History[]
-  // console.log(tinycolor(color).getBrightness())
-  const prices: string[] = history && history.map((item) => item.price).reverse();
+  if (historyStatus === "loading") {
+    return <Skeleton active paragraph={{ rows: 6 }} />;
+  }
 
-  const timestamps: string[] = history && history.map((item) =>
-    moment(new Date(item.timestamp * 1000)).format(
-      `${timeperiod === "3h"
-        ? "HH:mm"
-        : timeperiod === "24h" || timeperiod === "7d"
+  if (historyStatus === "error") {
+    return (
+      <Alert
+        message="Failed to load price history"
+        description={(historyError as Error)?.message || "Unknown error"}
+        type="error"
+        showIcon
+      />
+    );
+  }
+
+  const history: History[] = historyData as History[];
+
+  const prices: string[] = history.map((item) => item.price).reverse();
+
+  const timestamps: string[] = history
+    .map((item) =>
+      moment(new Date(item.timestamp * 1000)).format(
+        timeperiod === "3h"
+          ? "HH:mm"
+          : timeperiod === "24h" || timeperiod === "7d"
           ? "DD-MM HH:mm"
           : "DD-MM-YYYY"
-      }`
+      )
     )
-  ).reverse();
-
+    .reverse();
 
   const data = {
     labels: timestamps,
@@ -67,8 +92,12 @@ const LineChart = ({ currentPrice, coinId, coinName, timeperiod, color }: Props)
         label: "Price in USD",
         data: prices,
         fill: false,
-        backgroundColor: `${color}`,
-        borderColor: `${tinycolor(color).getBrightness() > 70 || themeContext.theme === "light" ? color : "grey"}`,
+        backgroundColor: color,
+        borderColor:
+          tinycolor(color).getBrightness() > 70 ||
+          themeContext.theme === "light"
+            ? color
+            : "grey",
       },
     ],
   };
@@ -85,14 +114,12 @@ const LineChart = ({ currentPrice, coinId, coinName, timeperiod, color }: Props)
       },
     },
   };
-  if (historyStatus === "loading")return <></>
-  if (historyStatus === "error") return <>{JSON.stringify(historyError)} </>
+
   return (
     <div>
       <Line datasetIdKey="id" data={data} options={options} />
     </div>
   );
-
 };
 
 export default LineChart;
