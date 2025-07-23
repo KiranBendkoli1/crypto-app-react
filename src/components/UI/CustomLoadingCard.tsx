@@ -1,16 +1,17 @@
 import { Card } from "antd";
 
 type Props = {
-    style: React.CSSProperties;
-    isLoading: boolean
-}
+  style: React.CSSProperties;
+  isLoading: boolean;
+};
 
-const CustomLoadingCard = ({ style, isLoading }: Props) => {
-    return (
-        <Card style={{height:"10rem", width:"12rem"}} loading={isLoading}>
-            
-        </Card>
-    )
-}
+const CustomLoadingCard = ({ isLoading }: Props) => {
+  return (
+    <Card
+      style={{ height: "10rem", width: "12rem" }}
+      loading={isLoading}
+    ></Card>
+  );
+};
 
-export default CustomLoadingCard
+export default CustomLoadingCard;

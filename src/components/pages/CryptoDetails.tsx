@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import millify from "millify";
-import { Select, Typography, Col, Image, Row, Spin } from "antd";
+import { Select, Typography, Col, Image, Row } from "antd";
 import { useParams } from "react-router-dom";
 import {
   AiOutlineDollarCircle,

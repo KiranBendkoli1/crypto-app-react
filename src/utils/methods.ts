@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CryptoAPITypes, Data, HData, Stats } from "../app/cryptoSlice";
+import { CryptoAPITypes, Stats } from "../app/cryptoSlice";
 import { NewsData, Value } from "../app/newsSlice";
 
 export const getStats = () => {

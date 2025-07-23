@@ -36,13 +36,7 @@ ChartJS.register(
   Legend
 );
 
-const LineChart = ({
-  currentPrice,
-  coinId,
-  coinName,
-  timeperiod,
-  color,
-}: Props) => {
+const LineChart = ({ coinId, coinName, timeperiod, color }: Props) => {
   const themeContext = useContext(ThemeContext);
 
   const {

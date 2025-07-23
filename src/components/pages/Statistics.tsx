@@ -1,4 +1,4 @@
-import { Typography, Row, Col, Statistic, Spin } from "antd";
+import { Typography, Row, Col, Statistic } from "antd";
 import millify from "millify";
 import { useQuery } from '@tanstack/react-query';
 import { getStats } from '../../utils/methods';

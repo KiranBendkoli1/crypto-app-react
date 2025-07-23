@@ -1,12 +1,11 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Value } from "../../app/newsSlice";
-import { Typography, Row, Select, Spin, Card } from "antd";
+import { Typography, Row, Select} from "antd";
 import { Coin } from "../../app/cryptoSlice";
 import CustomNewsCard from "../UI/CustomNewsCard";
 import { useQuery } from "@tanstack/react-query";
 import { getCoins, getNews } from "../../utils/methods";
-import CustomLoadingCard from "../UI/CustomLoadingCard";
 
 const { Option } = Select;
 type Props = {

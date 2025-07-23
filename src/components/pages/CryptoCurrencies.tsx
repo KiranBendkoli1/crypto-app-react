@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import { Typography, Row, Select, Spin } from "antd";
+import { Typography, Row, Select } from "antd";
 import { Coin } from "../../app/cryptoSlice";
 import CustomCryptoCard from "../UI/CustomCryptoCard";
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query";
 import { getCoins } from "../../utils/methods";
 type Props = {
   simplified?: boolean;
@@ -15,22 +15,26 @@ const CryptoCurrencies = ({ simplified }: Props) => {
   const count = useMemo(() => (simplified ? 10 : 100), [simplified]);
   const [selected, setSelected] = useState<string[]>([]);
 
-  const { status: coinsStatus, data: coinsData, error: coinsError,isLoading } = useQuery({
-    queryKey: ['coins',count], queryFn: () => getCoins(count)
-  })
+  const {
+    status: coinsStatus,
+    data: coinsData,
+    error: coinsError,
+  } = useQuery({
+    queryKey: ["coins", count],
+    queryFn: () => getCoins(count),
+  });
   // console.log(coinsData)
   const coins: Coin[] = coinsData as Coin[];
   const coin_names = coins && coins.map((coin) => coin.name);
   const handleChange = useCallback((val: string[]) => {
     setSelected(val);
-  }, [])
-
+  }, []);
 
   if (coinsStatus === "loading") {
-    return <></>
+    return <></>;
   }
   if (coinsStatus === "error") {
-    return <>{JSON.stringify(coinsError)}</>
+    return <>{JSON.stringify(coinsError)}</>;
   }
 
   return (
@@ -65,30 +69,22 @@ const CryptoCurrencies = ({ simplified }: Props) => {
         )}
       </div>
       <Row gutter={[16, 16]}>
-        {
-          simplified ?
-            coins.filter((coin) => coin.rank <= 10).map((coin) => (
-              <CustomCryptoCard coin={coin} />
-            ))
-            :
-            !selected.length
-              ? coins.map((coin) => {
-                return (
-                  <CustomCryptoCard coin={coin} />
-                );
-              })
-              : coins
-                .filter((coin) => selected.includes(coin.name))
-                .map((coin) => {
-                  return (
-                    <CustomCryptoCard coin={coin} />
-                  );
-                })}
+        {simplified
+          ? coins
+              .filter((coin) => coin.rank <= 10)
+              .map((coin) => <CustomCryptoCard coin={coin} />)
+          : !selected.length
+          ? coins.map((coin) => {
+              return <CustomCryptoCard coin={coin} />;
+            })
+          : coins
+              .filter((coin) => selected.includes(coin.name))
+              .map((coin) => {
+                return <CustomCryptoCard coin={coin} />;
+              })}
       </Row>
     </>
   );
 };
 
 export default CryptoCurrencies;
-
-
